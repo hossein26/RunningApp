@@ -1,8 +1,10 @@
 package com.hossein.runningapp.ui
 
+import android.Manifest
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.core.app.ActivityCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
