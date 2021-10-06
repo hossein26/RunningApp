@@ -1,5 +1,6 @@
 package com.hossein.runningapp.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.hossein.runningapp.databinding.FragmentTrackingBinding
+import com.hossein.runningapp.services.TrackingService
 
 class TrackingFragment: Fragment() {
 
@@ -35,7 +37,17 @@ class TrackingFragment: Fragment() {
         mapView?.getMapAsync {
             map = it
         }
+
+        binding.btnToggleRun.setOnClickListener {
+            sendCommandToService("ACTION_START_OR_RESUME_SERVICE")
+        }
     }
+
+    private fun sendCommandToService(action:String) =
+        Intent(requireContext(), TrackingService::class.java).also {
+            it.action = action
+            requireContext().startService(it)
+        }
 
     override fun onResume() {
         super.onResume()
