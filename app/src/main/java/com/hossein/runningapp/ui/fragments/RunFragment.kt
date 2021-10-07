@@ -2,9 +2,7 @@ package com.hossein.runningapp.ui.fragments
 
 import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,17 +15,14 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import com.hossein.runningapp.R
 import com.hossein.runningapp.databinding.FragmentRunBinding
-import com.hossein.runningapp.other.TrackingUtility.hasPermissions
+import com.hossein.runningapp.other.TrackingUtility
+import com.hossein.runningapp.other.TrackingUtility.hasPermission
 
 class RunFragment : Fragment() {
 
     private val viewModel: ViewModel by viewModels()
     private var _binding: FragmentRunBinding? = null
     private val binding get() = _binding!!
-    private val arrayOfPermissions = arrayOf(
-        Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.ACCESS_COARSE_LOCATION
-    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,7 +39,7 @@ class RunFragment : Fragment() {
             findNavController().navigate(R.id.action_runFragment_to_trackingFragment)
         }
 
-        if (!hasPermissions(requireContext(), arrayOfPermissions.toString())) {
+        if (!hasPermission(requireContext())) {
             requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
     }
