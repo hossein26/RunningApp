@@ -1,7 +1,9 @@
 package com.hossein.runningapp.ui.fragments
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,9 +22,11 @@ import com.hossein.runningapp.other.Constants.ACTION_START_OR_RESUME_SERVICE
 import com.hossein.runningapp.other.Constants.MAP_ZOOM
 import com.hossein.runningapp.other.Constants.POLYLINE_COLOR
 import com.hossein.runningapp.other.Constants.POLYLINE_WIDTH
+import com.hossein.runningapp.other.TrackingUtility
 import com.hossein.runningapp.services.Polyline
 import com.hossein.runningapp.services.TrackingService
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class TrackingFragment: Fragment() {
@@ -34,6 +38,7 @@ class TrackingFragment: Fragment() {
     private var mapView:MapView? = null
     private var isTracking = false
     private var pathPoints = mutableListOf<Polyline>()
+    private var curTimeInMillis = 0L
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,13 +67,18 @@ class TrackingFragment: Fragment() {
     }
 
     private fun subscribeToObservers(){
-        TrackingService.isTracking.observe(viewLifecycleOwner, {
+        TrackingService.isTracking.observe(viewLifecycleOwner, Observer{
             updateTracking(it)
         })
-        TrackingService.pathPoints.observe(viewLifecycleOwner, {
+        TrackingService.pathPoints.observe(viewLifecycleOwner, Observer{
             pathPoints = it
             addLatestPolyline()
             moveCameraToUser()
+        })
+        TrackingService.timeRunInMillis.observe(viewLifecycleOwner, Observer {
+            curTimeInMillis = it
+            val formattedTime = TrackingUtility.getFormattedStopWatchTime(curTimeInMillis, true)
+            binding.tvTimer.text = formattedTime
         })
     }
 
@@ -116,7 +126,7 @@ class TrackingFragment: Fragment() {
             val preLastLatLng = pathPoints.last()[pathPoints.last().size - 2]
             val lastLatLng = pathPoints.last().last()
             val polylineOptions = PolylineOptions()
-                .color(POLYLINE_COLOR)
+                .color(Color.GREEN)
                 .width(POLYLINE_WIDTH)
                 .add(preLastLatLng)
                 .add(lastLatLng)

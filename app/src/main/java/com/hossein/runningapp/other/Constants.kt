@@ -16,7 +16,8 @@ object Constants {
 
     const val POLYLINE_COLOR = Color.RED
     const val POLYLINE_WIDTH = 8f
-    const val MAP_ZOOM = 18f
+    const val MAP_ZOOM = 15f
+    const val TIMER_UPDATE_INTERVAL = 50L
 
     const val NOTIFICATION_ID = 1
     const val NOTIFICATION_CHANNEL_NAME = "Tracking"
