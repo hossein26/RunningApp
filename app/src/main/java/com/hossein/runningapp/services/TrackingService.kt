@@ -27,6 +27,7 @@ import com.hossein.runningapp.R
 import com.hossein.runningapp.other.Constants.ACTION_PAUSE_SERVICE
 import com.hossein.runningapp.other.Constants.ACTION_SHOW_TRACKING_FRAGMENT
 import com.hossein.runningapp.other.Constants.ACTION_START_OR_RESUME_SERVICE
+import com.hossein.runningapp.other.Constants.ACTION_STOP_SERVICE
 import com.hossein.runningapp.other.Constants.FASTEST_LOCATION_INTERVAL
 import com.hossein.runningapp.other.Constants.LOCATION_UPDATE_INTERVAL
 import com.hossein.runningapp.other.Constants.NOTIFICATION_CHANNEL_ID
@@ -57,9 +58,10 @@ class TrackingService : LifecycleService() {
     lateinit var baseNotificationBuilder: NotificationCompat.Builder
 
     lateinit var curNotificationBuilder: NotificationCompat.Builder
+    private var timeRunInSeconds = MutableLiveData<Long>()
 
     private var isFirstRun = true
-    private var timeRunInSeconds = MutableLiveData<Long>()
+    private var serviceKilled = false
 
     companion object {
         val isTracking = MutableLiveData<Boolean>()
@@ -144,6 +146,9 @@ class TrackingService : LifecycleService() {
                 ACTION_PAUSE_SERVICE -> {
                     pauseService()
                 }
+                ACTION_STOP_SERVICE ->{
+                    killService()
+                }
             }
         }
         return super.onStartCommand(intent, flags, startId)
@@ -173,6 +178,15 @@ class TrackingService : LifecycleService() {
         }
     }
 
+    private fun killService(){
+        serviceKilled = true
+        isFirstRun = true
+        pauseService()
+        postInitialValues()
+        stopForeground(true)
+        stopSelf()
+    }
+
     private fun pauseService() {
         isTracking.postValue(false)
         isTimerEnabled = false
@@ -198,8 +212,10 @@ class TrackingService : LifecycleService() {
         val notificationBuilder = baseNotificationBuilder
 
         timeRunInSeconds.observe(this, Observer {
-            val notification = curNotificationBuilder.setContentText(getFormattedStopWatchTime(it * 1000L))
-            notificationManager.notify(NOTIFICATION_ID, notification.build())
+            if (!serviceKilled){
+                val notification = curNotificationBuilder.setContentText(getFormattedStopWatchTime(it * 1000L))
+                notificationManager.notify(NOTIFICATION_ID, notification.build())
+            }
         })
 
         startForeground(NOTIFICATION_ID, notificationBuilder.build())
@@ -225,12 +241,14 @@ class TrackingService : LifecycleService() {
             isAccessible = true
             set(curNotificationBuilder, ArrayList<NotificationCompat.Action>())
         }
-        curNotificationBuilder = baseNotificationBuilder.addAction(
-            R.drawable.ic_pause_black_24dp,
-            notificationActionText,
-            pendingIntent
-        )
-        notificationManager.notify(NOTIFICATION_ID, curNotificationBuilder.build())
+        if (!serviceKilled){
+            curNotificationBuilder = baseNotificationBuilder.addAction(
+                R.drawable.ic_pause_black_24dp,
+                notificationActionText,
+                pendingIntent
+            )
+            notificationManager.notify(NOTIFICATION_ID, curNotificationBuilder.build())
+        }
     }
 
 
