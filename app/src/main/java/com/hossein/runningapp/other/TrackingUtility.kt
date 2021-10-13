@@ -3,9 +3,9 @@ package com.hossein.runningapp.other
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Build
+import android.location.Location
 import androidx.core.app.ActivityCompat
-import com.hossein.runningapp.ui.fragments.RunFragment
+import com.hossein.runningapp.services.Polyline
 import java.util.concurrent.TimeUnit
 
 object TrackingUtility {
@@ -38,6 +38,25 @@ object TrackingUtility {
                 "${if (minutes < 10) "0" else ""}$minutes:" +
                 "${if (seconds < 10) "0" else ""}$seconds:" +
                 "${if (milliSeconds < 10) "0" else ""}$milliSeconds"
+    }
+
+    fun calculatePolylineLength(polyline: Polyline): Float{
+        var distance = 0f
+        for (i in 0..polyline.size - 2){
+            val pos1 = polyline[i]
+            val pos2 = polyline[i + 1]
+
+            val result = FloatArray(1)
+            Location.distanceBetween(
+                pos1.latitude,
+                pos1.longitude,
+                pos2.latitude,
+                pos2.longitude,
+                result
+            )
+            distance += result[0]
+        }
+        return distance
     }
 }
 

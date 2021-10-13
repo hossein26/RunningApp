@@ -10,7 +10,7 @@ data class Run(
     var timestamp: Long,
     var timeInMillis: Long = 0L,
     var distanceInMeters: Int = 0,
-    var avgSpeedKMH: Float = 0f,
+    var avgSpeedInKMH: Float = 0f,
     var caloriesBurned: Int = 0
 ){
     @PrimaryKey(autoGenerate = true)
