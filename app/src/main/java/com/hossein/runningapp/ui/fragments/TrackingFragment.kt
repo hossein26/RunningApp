@@ -29,7 +29,9 @@ import com.hossein.runningapp.services.Polyline
 import com.hossein.runningapp.services.TrackingService
 import com.hossein.runningapp.ui.viewModels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_tracking.*
 import java.util.*
+import javax.inject.Inject
 import kotlin.math.round
 
 @AndroidEntryPoint
@@ -39,12 +41,13 @@ class TrackingFragment : Fragment() {
     private var _binding: FragmentTrackingBinding? = null
     private val binding get() = _binding!!
     private var map: GoogleMap? = null
-    private var mapView: MapView? = null
     private var isTracking = false
     private var pathPoints = mutableListOf<Polyline>()
     private var curTimeInMillis = 0L
     private var menu: Menu? = null
-    private var weight = 80f
+
+    @set:Inject
+    var weight = 80f
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,7 +56,6 @@ class TrackingFragment : Fragment() {
     ): View {
         setHasOptionsMenu(true)
         _binding = FragmentTrackingBinding.inflate(inflater, container, false)
-        mapView = binding.mapView
         return binding.root
     }
 
@@ -133,9 +135,9 @@ class TrackingFragment : Fragment() {
         map?.moveCamera(
             CameraUpdateFactory.newLatLngBounds(
                 bounds.build(),
-                binding.mapView.width,
-                binding.mapView.height,
-                (binding.mapView.height * 0.05f).toInt()
+                mapView.width,
+                mapView.height,
+                (mapView.height * 0.05f).toInt()
             )
         )
     }
