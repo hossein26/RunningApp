@@ -19,11 +19,11 @@ class MainViewModel @Inject constructor(
         mainRepository.insertRun(run)
     }
 
-    val runsSortedByDate = mainRepository.getAllRunsSortedByDate()
-    val runsSortedByAvgSpeed = mainRepository.getAllRunsSortedByAvgSpeedKMH()
-    val runsSortedByCaloriesBurned = mainRepository.getAllRunsSortedByCaloriesBurned()
-    val runsSortedByDistance = mainRepository.getAllRunsSortedByDistanceInMeters()
-    val runsSortedByTimeInMillis = mainRepository.getAllRunsSortedByTimeInMillis()
+    private val runsSortedByDate = mainRepository.getAllRunsSortedByDate()
+    private val runsSortedByAvgSpeed = mainRepository.getAllRunsSortedByAvgSpeedKMH()
+    private val runsSortedByCaloriesBurned = mainRepository.getAllRunsSortedByCaloriesBurned()
+    private val runsSortedByDistance = mainRepository.getAllRunsSortedByDistanceInMeters()
+    private val runsSortedByTimeInMillis = mainRepository.getAllRunsSortedByTimeInMillis()
 
     val runs = MediatorLiveData<List<Run>>()
 

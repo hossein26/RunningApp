@@ -12,7 +12,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0 km"
-            android:textSize="40sp"
+            android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@id/tvTotalDistanceInfo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/guideline2" />
@@ -21,7 +21,6 @@
             android:id="@+id/tvTotalDistanceInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
             android:text="Total Distance"
             app:layout_constraintBottom_toTopOf="@id/tvAverageSpeedInfo"
             app:layout_constraintEnd_toEndOf="@id/tvTotalDistance"
@@ -33,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00:00:00"
-            android:textSize="40sp"
+            android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@+id/tvTotalTimeInfo"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintStart_toStartOf="parent" />
@@ -53,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0 kcal"
-            android:textSize="40sp"
+            android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@+id/tvTotalCaloriesInfo"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintStart_toStartOf="parent" />
@@ -73,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0 km/h"
-            android:textSize="40sp"
+            android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@+id/tvAverageSpeedInfo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline2" />
