@@ -1,16 +1,15 @@
 package com.hossein.runningapp.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
 import com.hossein.runningapp.R
 import com.hossein.runningapp.databinding.FragmentTrackingBinding
@@ -25,15 +24,18 @@ import com.hossein.runningapp.services.Polyline
 import com.hossein.runningapp.services.TrackingService
 import com.hossein.runningapp.ui.viewModels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_tracking.*
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.round
+import android.widget.RelativeLayout
+
 
 const val CANCEL_TRACKING_DIALOG_TAG = "CancelDialog"
 
 @AndroidEntryPoint
-class TrackingFragment : Fragment() {
+class TrackingFragment : Fragment(), OnMapReadyCallback {
 
     private val viewModel: MainViewModel by viewModels()
     private var _binding: FragmentTrackingBinding? = null
@@ -63,8 +65,12 @@ class TrackingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mapView.onCreate(savedInstanceState)
+        //mapView.getMapAsync {
+        //    map = it
+        //    addAllPolylines()
+        //}
+        mapView.getMapAsync(this)
         mapView.getMapAsync {
-            map = it
             addAllPolylines()
         }
 
@@ -114,6 +120,38 @@ class TrackingFragment : Fragment() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onMapReady(googleMap: GoogleMap?) {
+        map = googleMap
+        val latitude = 35.715298
+        val longitude = 51.404343
+
+        val homeLatLng = LatLng(latitude, longitude)
+        map?.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, 10f))
+
+        if (mapView.findViewById<View?>("1".toInt()) != null) {
+            // Get the button view
+            val locationButton: View =
+                (mapView.findViewById<View>("1".toInt()).parent as View).findViewById("2".toInt())
+            // and next place it, on bottom right (as Google Maps app)
+            val layoutParams = locationButton.layoutParams as RelativeLayout.LayoutParams
+            // position on right bottom
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0)
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
+            layoutParams.setMargins(0, 0, 30, 30)
+        }
+
+        enableMyLocation()
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun enableMyLocation() {
+        if (TrackingUtility.hasPermission(requireContext())) {
+            map?.isMyLocationEnabled = true
+        } else {
+            Snackbar.make(requireView(), "Please accept permissions", Snackbar.LENGTH_LONG).show()
+        }
     }
 
     private fun showCancelTrackingDialog() {
@@ -172,15 +210,15 @@ class TrackingFragment : Fragment() {
     }
 
     private fun subscribeToObservers() {
-        TrackingService.isTracking.observe(viewLifecycleOwner,  {
+        TrackingService.isTracking.observe(viewLifecycleOwner, {
             updateTracking(it)
         })
-        TrackingService.pathPoints.observe(viewLifecycleOwner,  {
+        TrackingService.pathPoints.observe(viewLifecycleOwner, {
             pathPoints = it
             addLatestPolyline()
             moveCameraToUser()
         })
-        TrackingService.timeRunInMillis.observe(viewLifecycleOwner,  {
+        TrackingService.timeRunInMillis.observe(viewLifecycleOwner, {
             curTimeInMillis = it
             val formattedTime = TrackingUtility.getFormattedStopWatchTime(curTimeInMillis, true)
             binding.tvTimer.text = formattedTime
