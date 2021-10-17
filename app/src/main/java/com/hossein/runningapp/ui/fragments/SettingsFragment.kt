@@ -5,14 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import com.google.android.material.snackbar.Snackbar
-import com.hossein.runningapp.R
-import com.hossein.runningapp.databinding.FragmentRunBinding
 import com.hossein.runningapp.databinding.FragmentSettingsBinding
 import com.hossein.runningapp.other.Constants.KEY_NAME
 import com.hossein.runningapp.other.Constants.KEY_WEIGHT
@@ -23,7 +17,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SettingsFragment: Fragment() {
 
-    private val viewModel: ViewModel by viewModels()
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
 

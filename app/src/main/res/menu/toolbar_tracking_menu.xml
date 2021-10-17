@@ -6,7 +6,7 @@
     <item
         android:id="@+id/miCancelTracking"
         android:icon="@drawable/ic_close_white"
-        android:title="Cancel Run"
+        android:title="@string/cancel_run"
         android:visible="false"
         app:showAsAction="always"/>
 </menu>

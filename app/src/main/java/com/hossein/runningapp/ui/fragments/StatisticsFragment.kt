@@ -6,10 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import com.hossein.runningapp.R
-import com.hossein.runningapp.databinding.FragmentRunBinding
 import com.hossein.runningapp.databinding.FragmentStaticticsBinding
 import com.hossein.runningapp.other.TrackingUtility
 import com.hossein.runningapp.ui.viewModels.StatisticsViewModel
@@ -40,14 +36,14 @@ class StatisticsFragment :Fragment() {
 
     private fun subscribeToObserver(){
 
-        viewModel.totalTimeRun.observe(viewLifecycleOwner, Observer {
+        viewModel.totalTimeRun.observe(viewLifecycleOwner,  {
             it?.let {
                 val totalTimeRun = TrackingUtility.getFormattedStopWatchTime(it)
                 binding.tvTotalTime.text = totalTimeRun
             }
         })
 
-        viewModel.totalDistance.observe(viewLifecycleOwner, Observer {
+        viewModel.totalDistance.observe(viewLifecycleOwner,  {
             it?.let {
                 val km = it * 1000f
                 val totalDistance = round(km * 10f) / 10f
@@ -56,7 +52,7 @@ class StatisticsFragment :Fragment() {
             }
         })
 
-        viewModel.totalAvgSpeed.observe(viewLifecycleOwner, Observer {
+        viewModel.totalAvgSpeed.observe(viewLifecycleOwner,  {
             it?.let {
                 val avgSpeed = round(it * 10f) / 10f
                 val avgSpeedString = "${avgSpeed}km/h"
@@ -64,7 +60,7 @@ class StatisticsFragment :Fragment() {
             }
         })
 
-        viewModel.totalCaloriesBurned.observe(viewLifecycleOwner, Observer {
+        viewModel.totalCaloriesBurned.observe(viewLifecycleOwner,  {
             it?.let {
                 val totalCalories = "${it}kcal"
                 binding.tvTotalCalories.text = totalCalories

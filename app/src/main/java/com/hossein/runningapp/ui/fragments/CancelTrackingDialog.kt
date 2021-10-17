@@ -10,7 +10,7 @@ class CancelTrackingDialog : DialogFragment() {
 
     private var yesListener: (() -> Unit)? = null
 
-    fun setYesListener(listener: () -> Unit){
+    fun setYesListener(listener: () -> Unit) {
         yesListener = listener
     }
 

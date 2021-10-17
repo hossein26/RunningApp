@@ -1,5 +1,6 @@
 package com.hossein.runningapp.di
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -26,6 +27,7 @@ object ServiceModule {
         @ApplicationContext app: Context
     ) = FusedLocationProviderClient(app)
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     @ServiceScoped
     @Provides
     fun provideMainActivityPendingIntent(
@@ -33,7 +35,7 @@ object ServiceModule {
     ) =
         PendingIntent.getActivity(app, 0, Intent(app, MainActivity::class.java).also {
             it.action = Constants.ACTION_SHOW_TRACKING_FRAGMENT
-        }, PendingIntent.FLAG_UPDATE_CURRENT)
+        }, PendingIntent.FLAG_UPDATE_CURRENT)!!
 
     @ServiceScoped
     @Provides
