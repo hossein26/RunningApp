@@ -4,12 +4,17 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
+import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.snackbar.Snackbar
 import com.hossein.runningapp.R
 import com.hossein.runningapp.databinding.FragmentTrackingBinding
@@ -24,12 +29,10 @@ import com.hossein.runningapp.services.Polyline
 import com.hossein.runningapp.services.TrackingService
 import com.hossein.runningapp.ui.viewModels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_tracking.*
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.round
-import android.widget.RelativeLayout
 
 
 const val CANCEL_TRACKING_DIALOG_TAG = "CancelDialog"
@@ -65,10 +68,6 @@ class TrackingFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mapView.onCreate(savedInstanceState)
-        //mapView.getMapAsync {
-        //    map = it
-        //    addAllPolylines()
-        //}
         mapView.getMapAsync(this)
         mapView.getMapAsync {
             addAllPolylines()
@@ -91,7 +90,7 @@ class TrackingFragment : Fragment(), OnMapReadyCallback {
         }
 
         binding.btnFinishRun.setOnClickListener {
-            if (pathPoints.size > 2) {
+            if (pathPoints.size >= 2) {
                 zoomToSeeWholeTrack()
                 endRunSaveToDb()
             } else {
