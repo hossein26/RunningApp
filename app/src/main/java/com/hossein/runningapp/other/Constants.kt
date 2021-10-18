@@ -19,7 +19,7 @@ object Constants {
     const val KEY_WEIGHT = "KEY_WEIGHT"
     const val KEY_FIRST_TIME_TOGGLE = "KEY_FIRST_TIME_TOGGLE"
 
-    const val POLYLINE_COLOR = Color.RED
+    const val POLYLINE_COLOR = Color.BLUE
     const val POLYLINE_WIDTH = 10f
     const val MAP_ZOOM = 18f
     const val TIMER_UPDATE_INTERVAL = 50L

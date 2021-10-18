@@ -68,6 +68,7 @@ class TrackingService : LifecycleService() {
     private fun postInitialValues() {
         isTracking.postValue(false)
         pathPoints.postValue(mutableListOf())
+        pathPoints.removeObserver {  }
         timeRunInSeconds.postValue(0L)
         timeRunInMillis.postValue(0L)
     }
