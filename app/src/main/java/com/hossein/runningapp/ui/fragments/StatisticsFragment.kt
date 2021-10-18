@@ -45,7 +45,7 @@ class StatisticsFragment :Fragment() {
 
         viewModel.totalDistance.observe(viewLifecycleOwner,  {
             it?.let {
-                val km = it * 1000f
+                val km = it / 1000f
                 val totalDistance = round(km * 10f) / 10f
                 val totalDistanceString = "${totalDistance}km"
                 binding.tvTotalDistance.text = totalDistanceString

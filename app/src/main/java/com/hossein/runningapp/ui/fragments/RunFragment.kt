@@ -21,6 +21,7 @@ import com.google.android.gms.location.*
 import com.hossein.runningapp.R
 import com.hossein.runningapp.adapters.RunAdapter
 import com.hossein.runningapp.databinding.FragmentRunBinding
+import com.hossein.runningapp.other.Constants
 import com.hossein.runningapp.other.SortType
 import com.hossein.runningapp.other.TrackingUtility.hasPermission
 import com.hossein.runningapp.ui.viewModels.MainViewModel
@@ -109,8 +110,10 @@ class RunFragment : Fragment() {
             googleApiClient.run { this!!.connect() }
             val locationRequest: LocationRequest = LocationRequest.create()
             locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            locationRequest.interval = 30 * 1000
-            locationRequest.fastestInterval = 5 * 1000
+            //locationRequest.interval = 30 * 1000
+            //locationRequest.fastestInterval = 5 * 1000
+            locationRequest.interval = Constants.LOCATION_UPDATE_INTERVAL
+            locationRequest.fastestInterval = Constants.FASTEST_LOCATION_INTERVAL
             val builder = LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest)
             builder.setAlwaysShow(true)

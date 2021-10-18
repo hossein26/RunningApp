@@ -90,7 +90,8 @@ class TrackingFragment : Fragment(), OnMapReadyCallback {
         }
 
         binding.btnFinishRun.setOnClickListener {
-            if (pathPoints.size >= 2) {
+            if (pathPoints.last().isNotEmpty()) {
+                Timber.d("$pathPoints")
                 zoomToSeeWholeTrack()
                 endRunSaveToDb()
             } else {

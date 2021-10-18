@@ -31,7 +31,7 @@
             android:id="@+id/tvTotalTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/start_timer"
+            android:text="@string/start_timer_statistics"
             android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@+id/tvTotalTimeInfo"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
