@@ -22,6 +22,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:background="@drawable/round_edit_text"
                 android:hint="@string/your_name"
                 android:inputType="textPersonName" />
 
@@ -41,16 +42,17 @@
                 android:layout_height="match_parent"
                 android:ems="10"
                 android:hint="@string/your_weight"
+                android:background="@drawable/round_edit_text"
                 android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnApplyChanges"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/apply_changes"
-            android:textColor="@color/white"
+            android:background="@drawable/round_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tilWeight" />
