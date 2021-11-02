@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -10,14 +12,30 @@
             android:id="@+id/tvWelcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/welcome_please_enter_your_name_and_weight"
+            android:layout_marginBottom="0dp"
+            android:padding="12dp"
+            android:text="@string/welcome"
             android:textAlignment="center"
-            android:textSize="36sp"
-            app:layout_constraintBottom_toTopOf="@id/tilName"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toTopOf="@+id/tilName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvWelcome2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:padding="12dp"
+            android:text="@string/welcome_please_enter_your_name_and_weight"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/tilName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvWelcome" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilName"
@@ -35,6 +53,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/your_name"
+                android:background="@drawable/round_edit_text"
                 android:inputType="textPersonName" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -52,6 +71,7 @@
                 android:layout_height="match_parent"
                 android:ems="10"
                 android:hint="@string/your_weight"
+                android:background="@drawable/round_edit_text"
                 android:inputType="numberDecimal"
                 android:importantForAutofill="no" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -80,8 +100,10 @@
                 android:id="@+id/tvContinue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="8dp"
                 android:text="@string/continue_"
-                android:textSize="24sp"
+                android:textSize="20sp"
+                android:background="@drawable/round_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
